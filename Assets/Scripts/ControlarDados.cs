@@ -27,7 +27,7 @@ public class ControlarDados : MonoBehaviour
         controlarJogo.jogador1 = true;
         controlarJogo.rolagemLimite = 3;
         controlarJogo.contador = 1;
-        textoLances.text =( LANCESMAX - controlarJogo.contador).ToString() + " lances restantes!";
+        textoLances.text =( LANCESMAX - controlarJogo.contador).ToString() + " lances restantes";
         textoJogador.text = "Jogador 1";
 
         //evento clique no botao rolar
@@ -53,7 +53,7 @@ public class ControlarDados : MonoBehaviour
                 controlarJogo.zerarContador();
                 trocarJogador();
             }
-            textoLances.text = (LANCESMAX - controlarJogo.contador).ToString() + " lances restantes!";
+            textoLances.text = (LANCESMAX - controlarJogo.contador).ToString() + " lances restantes";
         });
 
         //evento de clique no botão manter.
