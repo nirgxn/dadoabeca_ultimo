@@ -14,7 +14,6 @@ public class Pontuacao
         POKER,
         FULA,
         SEQUENCIA,
-      //  NADA,
         ERRO,
         COMUM
     };

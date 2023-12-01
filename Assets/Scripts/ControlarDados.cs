@@ -19,6 +19,16 @@ public class ControlarDados : MonoBehaviour
     [SerializeField] private List<GameObject> listDados;
     public Text textoJogador;
     public Text textoLances;
+    public Text ponto1;
+    public Text ponto2;
+    public Text ponto3;
+    public Text ponto4;
+    public Text ponto5;
+    public Text ponto6;
+    public Text pontoS;
+    public Text pontoF;
+    public Text pontoP;
+    public Text pontoG;
     private Dado dado;
 
     const int LANCESMAX = 3;
@@ -262,15 +272,6 @@ public class ControlarDados : MonoBehaviour
         int[] vetor = lista.ToArray();
         EncontrarNumerosRepetidos(vetor);
 
-
-        /*
-        int n1 = this.contarMaiorNumeroInRange(contagemNumeros,0,contagemNumeros.Length - 1);
-        int index_n1_to_search = Array.IndexOf(contagemNumeros,n1);
-        int n2 = this.contarMaiorNumeroInRange(contagemNumeros, index_n1_to_search, contagemNumeros.Length - 1);
-        int index_n2_to_search = Array.IndexOf(contagemNumeros, n2);
-
-        Pontuacao.aux = (n1 * (index_n1_to_search + 1) + n2 * (index_n2_to_search + 1));
-        */
         return true;
 
     }
