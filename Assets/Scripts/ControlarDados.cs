@@ -18,7 +18,10 @@ public class ControlarDados : MonoBehaviour
     public Button botaoManterDado;
     [SerializeField] private List<GameObject> listDados;
     public Text textoJogador;
+    public Text textoLances;
     private Dado dado;
+
+    const int LANCESMAX = 3;
     void Start()
     {
         controlarJogo.jogador1 = true;
@@ -31,10 +34,25 @@ public class ControlarDados : MonoBehaviour
             if (controlarJogo.contador <= controlarJogo.rolagemLimite)
             {
                 sortearDados();
-                controlarJogo.contador++;
+             
                 if (controlarJogo.jogador1)
                 {
                     textoJogador.text = "Jogador 1";
+
+                    textoLances.text = (LANCESMAX - controlarJogo.contador).ToString() + " lances disponíveis!";
+                    /*
+                    if (controlarJogo.contador == 1)
+                    {
+                        Debug.Log("2 lance");
+                    }
+                    else if (controlarJogo.contador == 2) {
+                        Debug.Log("1 lance");
+                    } else if(controlarJogo.contador == 3)
+                    {
+                        Debug.Log("0 lance");
+                        textoLances.text =  "lances restantes";
+                    }
+                    */
                     //Debug.Log("Vez do jogador 1");
                 }
                 else
@@ -43,7 +61,7 @@ public class ControlarDados : MonoBehaviour
                     //Debug.Log("Vez do jogador 2");
                 }
 
-
+                controlarJogo.contador++;
             }
             else
             {
