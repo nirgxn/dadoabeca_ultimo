@@ -27,49 +27,33 @@ public class ControlarDados : MonoBehaviour
         controlarJogo.jogador1 = true;
         controlarJogo.rolagemLimite = 3;
         controlarJogo.contador = 1;
+        textoLances.text =( LANCESMAX - controlarJogo.contador).ToString() + " lances restantes!";
+        textoJogador.text = "Jogador 1";
+
         //evento clique no botao rolar
         sortearDados();
         botaoRolarDado.onClick.AddListener(delegate ()
-        {
-            if (controlarJogo.contador <= controlarJogo.rolagemLimite)
+        {  
+            if (controlarJogo.jogador1)
             {
-                sortearDados();
-             
-                if (controlarJogo.jogador1)
-                {
-                    textoJogador.text = "Jogador 1";
-
-                    textoLances.text = (LANCESMAX - controlarJogo.contador).ToString() + " lances disponíveis!";
-                    /*
-                    if (controlarJogo.contador == 1)
-                    {
-                        Debug.Log("2 lance");
-                    }
-                    else if (controlarJogo.contador == 2) {
-                        Debug.Log("1 lance");
-                    } else if(controlarJogo.contador == 3)
-                    {
-                        Debug.Log("0 lance");
-                        textoLances.text =  "lances restantes";
-                    }
-                    */
-                    //Debug.Log("Vez do jogador 1");
-                }
-                else
-                {
-                    textoJogador.text = "Jogador 2";
-                    //Debug.Log("Vez do jogador 2");
-                }
-
-                controlarJogo.contador++;
+                textoJogador.text = "Jogador 1";
             }
             else
             {
-                // muda pro prox jogador e zera o cont.
+                textoJogador.text = "Jogador 2";
+                    //Debug.Log("Vez do jogador 2");
+            }
+            controlarJogo.contador++;
+            sortearDados();
+          
+
+            if(controlarJogo.contador == 4)
+            {
 
                 controlarJogo.zerarContador();
                 trocarJogador();
             }
+            textoLances.text = (LANCESMAX - controlarJogo.contador).ToString() + " lances restantes!";
         });
 
         //evento de clique no botão manter.
@@ -370,6 +354,18 @@ public class ControlarDados : MonoBehaviour
 
         Pontuacao.aux = res_for_aux_2;
 
+    }
+
+    void arrumarTexto()
+    {
+        if (controlarJogo.jogador1)
+        {
+            textoJogador.text = "Jogador 1";
+        }
+        else
+        {
+            textoJogador.text = "Jogador 2";
+        }
     }
 
 
