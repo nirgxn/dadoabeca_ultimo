@@ -1,15 +1,8 @@
-using JetBrains.Annotations;
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization.Json;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.U2D;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
 
 public class ControlarDados : MonoBehaviour
 {
@@ -19,17 +12,10 @@ public class ControlarDados : MonoBehaviour
     [SerializeField] private List<GameObject> listDados;
     public Text textoJogador;
     public Text textoLances;
-    public Text ponto1;
-    public Text ponto2;
-    public Text ponto3;
-    public Text ponto4;
-    public Text ponto5;
-    public Text ponto6;
-    public Text pontoS;
-    public Text pontoF;
-    public Text pontoP;
-    public Text pontoG;
     private Dado dado;
+
+    public List <GameObject> visor1 = new List<GameObject>();
+    public List<GameObject> visor2 = new List<GameObject>();
 
     const int LANCESMAX = 3;
     void Start()
@@ -40,6 +26,8 @@ public class ControlarDados : MonoBehaviour
         textoLances.text =( LANCESMAX - controlarJogo.contador).ToString() + " lances restantes";
         textoJogador.text = "Jogador 1";
 
+        controlarJogo.p1.visor.addGameObjects(visor1.ToArray());
+        controlarJogo.p2.visor.addGameObjects(visor2.ToArray());
         //evento clique no botao rolar
         sortearDados();
         botaoRolarDado.onClick.AddListener(delegate ()
@@ -93,6 +81,7 @@ public class ControlarDados : MonoBehaviour
             }
             mostrarDados();
             trocarJogador();
+            controlarJogo.contador = 1;
 
             //  Debug.Log("Você clicou no botão manter dado!");
         });
@@ -325,7 +314,8 @@ public class ControlarDados : MonoBehaviour
 
         int res_for_aux_1 = -1;
         int res_for_aux_2 = -1;
-
+        int ext_key_1 = 0;
+        int ext_key_2 = 0;
         Debug.Log("Números que se repetem:");
         foreach (var par in contagemNumeros)
         {
@@ -336,11 +326,13 @@ public class ControlarDados : MonoBehaviour
                 if (res_for_aux_1 == -1)
                 {
                     res_for_aux_1 = par.Key * par.Value;
+                    ext_key_1 = par.Key;
 
                 }
                 else if (res_for_aux_2 == -1)
                 {
                     res_for_aux_2 = par.Key * par.Value;
+                    ext_key_2 = par.Key;
                 }
             }
         }
@@ -350,10 +342,12 @@ public class ControlarDados : MonoBehaviour
         if(nroSorteado == 0)
         {
             Pontuacao.aux = res_for_aux_1;
+            Pontuacao.facetaDado = ext_key_1;
             return;
         }
 
         Pontuacao.aux = res_for_aux_2;
+        Pontuacao.facetaDado = ext_key_2;
 
     }
 
@@ -430,8 +424,6 @@ public class DadosJogador
     {
         dadosClicados.Clear();
     }
-
-
 
 
 }
