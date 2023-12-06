@@ -3,68 +3,30 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Dado : MonoBehaviour
+public class Dado : MonoBehaviour,
+    IPointerDownHandler
 {
-    bool clicado = false;
+    bool clicado;
     public int qntd;
-    public bool manter = true;
-  
+    bool manter;
+
+ 
 
     private void Start()
     {
         //controla dado clicado
-        clicado = manter = false;
+        //clicado = manter = false;
         this.gameObject.GetComponent<BoxCollider2D>().autoTiling = true;
+        this.clicado = false;
+        this.manter = true;
     }
-    private void OnMouseEnter()
+    public void resetAll()
     {
-
-        if (!clicado)
-        {
-            this.gameObject.GetComponent<RectTransform>().localScale =
-                        new Vector3(1.15f,1.15f,1.15f);
-        }
-        // aumenta tamanho do dado com mouse
-        
-    }
-
-    private void OnMouseExit()
-    {
-
-        if (!clicado)
-        {
-            //diminui dado com clique do mouse
-            this.gameObject.GetComponent<RectTransform>().localScale =
-                       new Vector3(
-                           1f,
-                           1f,
-                          1f);
-        }
-        
-    }
-
-    //qnd dado eh clicado
-    private void OnMouseDown()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            clicado = !clicado;
-            manter = !manter;
-
-            if (clicado)
-            {
-                //aumenta
-                this.gameObject.GetComponent<RectTransform>().localScale = new Vector3(1.3f, 1.3f, 1.3f);
-
-            }
-            else
-            {
-                //diminui
-                this.gameObject.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
-            }
-        }
+        this.clicado = false;
+        this.manter = true;
+        this.gameObject.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
     }
 
     public void setValor(int valor)
@@ -84,8 +46,52 @@ public class Dado : MonoBehaviour
     }
 
     public void zerarDados()
-    {
-        this.manter = false;
+    {    
+        this.manter = true;
         this.clicado = false;
+    }
+
+    public bool getManter()
+    {
+        return this.manter;
+    }
+
+    public void setManter(bool status)
+    {
+        this.manter = status;
+    }
+
+    public void getLogDado()
+    {
+      
+       Debug.Log("Clicado:" + this.clicado + "\tManter:" + this.manter);
+    }
+
+    public void OnPointerDown(PointerEventData eventData) // Quando clicar em cima
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            clicado = !clicado; //false
+            manter = !manter; //true
+           // this.getLogDado();
+
+            if (clicado)
+            {
+                //aumenta
+                this.gameObject.GetComponent<RectTransform>().localScale = new Vector3(1.3f, 1.3f, 1.3f);
+
+            }
+            else
+            {
+                //diminui
+                this.gameObject.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+            }
+        }
+    }
+
+    public void resetar()
+    {
+        this.Start();
     }
 }

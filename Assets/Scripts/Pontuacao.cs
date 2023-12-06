@@ -31,32 +31,32 @@ public class Pontuacao
 
     public void addPontuacao(int tipo)
     {
-        Debug.Log("entrou add");
+        //Debug.Log("entrou add");
         switch (tipo)
         {
             case (int) TiposPontuacao.GENERAL:
                 pontos += 50;
                 visor.changePontos(9,50);
-                Debug.LogWarning("Deu General");
+                //Debug.LogWarning("Deu General");
                 break;
             case (int)TiposPontuacao.POKER:
                 pontos += 40;
                 visor.changePontos(8, 40);
-                Debug.LogWarning("Deu Poker");
+                //Debug.LogWarning("Deu Poker");
                 break;
             case (int)TiposPontuacao.FULA:
                 pontos += 30;
                 visor.changePontos(7, 30); 
-                Debug.LogWarning("Deu fula");
+                //Debug.LogWarning("Deu fula");
                 break;
             case (int)TiposPontuacao.SEQUENCIA:
                 pontos += 20;
                 visor.changePontos(6, 20);
-                Debug.LogWarning("Deu Sequencia");
+                //Debug.LogWarning("Deu Sequencia");
                 break;
             case (int)TiposPontuacao.COMUM:
                 pontos += aux;
-                Debug.Log("Cara do dado a beca:" +facetaDado);
+               // Debug.Log("Cara do dado a beca:" +facetaDado);
                 switch (facetaDado)
                 {
                     case 1: 
@@ -78,9 +78,9 @@ public class Pontuacao
                         visor.changePontos(5, aux);
                         break;
                 }
-                Debug.Log("aUXILIADOR:" +aux);
+               // Debug.Log("aUXILIADOR:" +aux);
                 aux = 0;
-                Debug.LogWarning("Comum");
+                //Debug.LogWarning("Comum");
                 break;
             default:
                 Debug.LogError("Pontuação invalida");

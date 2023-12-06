@@ -1,8 +1,11 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Diagnostics.Contracts;
 
 public class ControlarDados : MonoBehaviour
 {
@@ -12,26 +15,27 @@ public class ControlarDados : MonoBehaviour
     [SerializeField] private List<GameObject> listDados;
     public Text textoJogador;
     public Text textoLances;
-    private Dado dado;
 
-    public List <GameObject> visor1 = new List<GameObject>();
+
+    public List<GameObject> visor1 = new List<GameObject>();
     public List<GameObject> visor2 = new List<GameObject>();
-
-    const int LANCESMAX = 3;
     void Start()
     {
         controlarJogo.jogador1 = true;
         controlarJogo.rolagemLimite = 3;
         controlarJogo.contador = 1;
-        textoLances.text =( LANCESMAX - controlarJogo.contador).ToString() + " lances restantes";
+        textoLances.text = "2 lances restantes";
         textoJogador.text = "Jogador 1";
+
 
         controlarJogo.p1.visor.addGameObjects(visor1.ToArray());
         controlarJogo.p2.visor.addGameObjects(visor2.ToArray());
-        //evento clique no botao rolar
+
+
         sortearDados();
         botaoRolarDado.onClick.AddListener(delegate ()
-        {  
+        {
+            verificar_trocarCena("sdsds");
             if (controlarJogo.jogador1)
             {
                 textoJogador.text = "Jogador 1";
@@ -39,19 +43,21 @@ public class ControlarDados : MonoBehaviour
             else
             {
                 textoJogador.text = "Jogador 2";
-                    //Debug.Log("Vez do jogador 2");
+                //Debug.Log("Vez do jogador 2");
             }
             controlarJogo.contador++;
             sortearDados();
-          
 
-            if(controlarJogo.contador == 4)
+            if (controlarJogo.contador == 4)
             {
-
-                controlarJogo.zerarContador();
+                controlarJogo.contador = 1;
+                textoLances.text = "2 lances restantes";
                 trocarJogador();
             }
-            textoLances.text = (LANCESMAX - controlarJogo.contador).ToString() + " lances restantes";
+            if (controlarJogo.contador < 4)
+            {
+                textoLances.text = (controlarJogo.rolagemLimite - controlarJogo.contador).ToString() + " lances restantes";
+            }
         });
 
         //evento de clique no botão manter.
@@ -59,12 +65,13 @@ public class ControlarDados : MonoBehaviour
         {
 
 
-            for (int i = 0; i < 5; i++)
+            verificar_trocarCena("sdsds");
+
+            foreach(var dado in listDados)
             {
-                dado = listDados[i].GetComponent<Dado>();
-                if (dado.manter)
+                if (dado.GetComponent<Dado>().getManter() == true)
                 {
-                    dado.setClicado(true);
+                    dado.GetComponent<Dado>().setClicado(true);
                 }
             }
 
@@ -87,7 +94,7 @@ public class ControlarDados : MonoBehaviour
         });
     }
 
-    void sortearDados()
+    public void sortearDados()
     {
         System.Random rand = new System.Random();
         int numeroSorteado;
@@ -96,13 +103,14 @@ public class ControlarDados : MonoBehaviour
         {
             // gerar número random d 1 a 6.
             numeroSorteado = rand.Next(1, 7);
-            dado = listDados[i].GetComponent<Dado>();
+            
+            listDados[i].GetComponent<Dado>();
             //vetor[i] = numeroSorteado;
-            if (dado.getClicado())
+            if (listDados[i].GetComponent<Dado>().getClicado())
             {
                 continue;
             }
-            dado.setValor(numeroSorteado);
+            listDados[i].GetComponent<Dado>().setValor(numeroSorteado);
             listDados[i].GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/dado_" + numeroSorteado);
             listDados[i].GetComponent<Dado>().qntd = numeroSorteado;
         }
@@ -113,7 +121,7 @@ public class ControlarDados : MonoBehaviour
 
         if (pontuacaoGeneral())
         {
-            Debug.LogWarning("General");
+            //  Debug.LogWarning("General");
             return (int)Pontuacao.TiposPontuacao.GENERAL;
         }
 
@@ -156,7 +164,6 @@ public class ControlarDados : MonoBehaviour
 
         return false;
     }
-
     private bool pontuacaoPoker()
     {
         List<int> lista = new List<int>();
@@ -190,7 +197,7 @@ public class ControlarDados : MonoBehaviour
         lista.Sort();
 
         if (lista[0] == lista[1] && lista[1] == lista[2] && (lista[2] != lista[3]) && lista[3] == lista[4] ||
-        lista[0] == lista[1] && lista[2] != lista[3] && lista[2] == lista[3] && lista[3] == lista[4]
+        lista[0] == lista[1] && lista[1] != lista[2] && lista[2] == lista[3] && lista[3] == lista[4]
 )
         {
             return true;
@@ -266,15 +273,29 @@ public class ControlarDados : MonoBehaviour
     }
     void trocarJogador()
     {
+       
+        foreach(var dado in listDados)
+        {
+            dado.GetComponent<Dado>().setClicado(false);
+            dado.GetComponent<Dado>().setManter(true);
+        }
         sortearDados();
         controlarJogo.jogador1 = !controlarJogo.jogador1;
+        controlarJogo.zerarContador();
+        controlarJogo.contaRodadas++;
         if (controlarJogo.jogador1)
         {
             textoJogador.text = "Jogador 1";
+            textoLances.text = (controlarJogo.rolagemLimite - controlarJogo.contador).ToString() + " lances restantes";
+
+
         }
         else
         {
             textoJogador.text = "Jogador 2";
+            textoLances.text = (controlarJogo.rolagemLimite - controlarJogo.contador).ToString() + " lances restantes";
+
+
         }
     }
 
@@ -316,12 +337,12 @@ public class ControlarDados : MonoBehaviour
         int res_for_aux_2 = -1;
         int ext_key_1 = 0;
         int ext_key_2 = 0;
-        Debug.Log("Números que se repetem:");
+        //Debug.Log("Números que se repetem:");
         foreach (var par in contagemNumeros)
         {
             if (par.Value > 1)
             {
-                Debug.Log($"{par.Key} se repete {par.Value} vezes");
+                //Debug.Log($"{par.Key} se repete {par.Value} vezes");
 
                 if (res_for_aux_1 == -1)
                 {
@@ -337,9 +358,9 @@ public class ControlarDados : MonoBehaviour
             }
         }
 
-        int nroSorteado = rand.Next(0,1);
+        int nroSorteado = rand.Next(0, 1);
 
-        if(nroSorteado == 0)
+        if (nroSorteado == 0)
         {
             Pontuacao.aux = res_for_aux_1;
             Pontuacao.facetaDado = ext_key_1;
@@ -351,19 +372,26 @@ public class ControlarDados : MonoBehaviour
 
     }
 
-    void arrumarTexto()
+    void zerarTodosOsDados()
     {
-        if (controlarJogo.jogador1)
+
+        foreach (var dados in this.listDados)
         {
-            textoJogador.text = "Jogador 1";
+            dados.GetComponent<Dado>().resetAll();
         }
-        else
+
+
+    }
+    
+    void verificar_trocarCena(string cena)
+    {
+        //Debug.Log("Contador:" +controlarJogo.contaRodadas);
+        if(controlarJogo.contaRodadas / 2 == 10)
         {
-            textoJogador.text = "Jogador 2";
+            SceneManager.LoadScene(cena);
+            return;   
         }
     }
-
-
 }
 public class Jogo
 {
@@ -372,6 +400,7 @@ public class Jogo
     public Pontuacao p2;
     public int rolagemLimite;
     public int contador;
+    public int contaRodadas;
     public Jogo(bool jogador1, int rolagemLimite)
     {
         p1 = new Pontuacao();
@@ -379,6 +408,7 @@ public class Jogo
         this.jogador1 = jogador1;
         this.rolagemLimite = rolagemLimite;
         contador = 1;
+        contaRodadas = 0;
     }
 
     public void zerarContador()
