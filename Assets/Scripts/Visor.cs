@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -81,6 +82,20 @@ public class Visor
 
         getGameObjects[numeroAleatório].GetComponent<Text>().text = "x";
         getGameObjects[numeroAleatório].GetComponent<Text>().color = Color.white;
+    }
+
+    public void resetVisor()
+    {
+        getGameObjects[0].GetComponent<Text>().text = "1";
+        getGameObjects[1].GetComponent<Text>().text = "2";
+        getGameObjects[2].GetComponent<Text>().text = "3";
+        getGameObjects[3].GetComponent<Text>().text = "4";
+        getGameObjects[4].GetComponent<Text>().text = "5";
+        getGameObjects[5].GetComponent<Text>().text = "6";
+        getGameObjects[6].GetComponent<Text>().text = "sequencia";
+        getGameObjects[7].GetComponent<Text>().text = "fula";
+        getGameObjects[8].GetComponent<Text>().text ="poker";
+        getGameObjects[9].GetComponent<Text>().text = "general";
     }
 
 };

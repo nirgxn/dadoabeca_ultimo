@@ -615,8 +615,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca56a17905ceab46b1511bfaa234fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posicaoOriginal: {x: 0, y: 0, z: 0}
-  posicaoFinal: {x: 0, y: 0, z: 0}
 --- !u!61 &326160315
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2694,8 +2692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca56a17905ceab46b1511bfaa234fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posicaoOriginal: {x: 0, y: 0, z: 0}
-  posicaoFinal: {x: 0, y: 0, z: 0}
 --- !u!61 &1196987833
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3033,8 +3029,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca56a17905ceab46b1511bfaa234fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posicaoOriginal: {x: 0, y: 0, z: 0}
-  posicaoFinal: {x: 0, y: 0, z: 0}
 --- !u!61 &1331495482
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3643,6 +3637,7 @@ GameObject:
   - component: {fileID: 1728195428}
   - component: {fileID: 1728195427}
   - component: {fileID: 1728195426}
+  - component: {fileID: 1728195431}
   - component: {fileID: 1728195429}
   - component: {fileID: 1728195430}
   m_Layer: 5
@@ -3765,8 +3760,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca56a17905ceab46b1511bfaa234fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posicaoOriginal: {x: 0, y: 0, z: 0}
-  posicaoFinal: {x: 0, y: 0, z: 0}
 --- !u!61 &1728195430
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3812,6 +3805,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 290, y: 70}
   m_EdgeRadius: 0
+--- !u!114 &1728195431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728195424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d3bafb63a980e41a45f9c0f64e8d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nomeDaCena: GeralScene
 --- !u!1 &1819098974
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,8 +6,8 @@ using UnityEngine;
 public class BtnHover : MonoBehaviour
 {
 
-    public Vector3 posicaoOriginal;
-    public Vector3 posicaoFinal;
+    private Vector3 posicaoOriginal;
+    private Vector3 posicaoFinal;
 
     private void Start()
     {

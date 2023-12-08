@@ -20,13 +20,16 @@ public class ControlarDados : MonoBehaviour
     const string CENAFINAL = "cenaFinal";
     void Start()
     {
+
         controlarJogo.jogador1 = true;
         controlarJogo.rolagemLimite = 3;
         controlarJogo.contador = 1;
         textoLances.text = "2 lances restantes";
         textoJogador.text = "Jogador 1";
         controlarJogo.p1.visor.addGameObjects(visor1.ToArray());
+        controlarJogo.p1.visor.resetVisor();
         controlarJogo.p2.visor.addGameObjects(visor2.ToArray());
+        controlarJogo.p2.visor.resetVisor();
         sortearDados();
 
         botaoRolarDado.onClick.AddListener(delegate ()
@@ -400,6 +403,11 @@ public class ControlarDados : MonoBehaviour
         //Debug.Log("Contador:" +controlarJogo.contaRodadas);
         if (controlarJogo.contaRodadas / 2 == 10)
         {
+            controlarJogo.zerarContador();
+            controlarJogo.p1.resetPontuacao();
+            controlarJogo.p2.resetPontuacao();
+            controlarJogo.p1.visor.resetVisor();
+            controlarJogo.p2.visor.resetVisor();
             SceneManager.LoadScene(cena);
             return;
         }
