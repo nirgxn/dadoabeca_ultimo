@@ -15,6 +15,7 @@ public class ControlarDados : MonoBehaviour
     [SerializeField] private List<GameObject> listDados;
     public Text textoJogador;
     public Text textoLances;
+    private System.Random rand = new System.Random();
 
 
     public List<GameObject> visor1 = new List<GameObject>();
@@ -67,13 +68,6 @@ public class ControlarDados : MonoBehaviour
 
             verificar_trocarCena("sdsds");
 
-            foreach(var dado in listDados)
-            {
-                if (dado.GetComponent<Dado>().getManter() == true)
-                {
-                    dado.GetComponent<Dado>().setClicado(true);
-                }
-            }
 
             if (controlarJogo.jogador1)
             {
@@ -96,16 +90,13 @@ public class ControlarDados : MonoBehaviour
 
     public void sortearDados()
     {
-        System.Random rand = new System.Random();
+ 
         int numeroSorteado;
 
         for (int i = 0; i < 5; i++)
         {
             // gerar número random d 1 a 6.
             numeroSorteado = rand.Next(1, 7);
-            
-            listDados[i].GetComponent<Dado>();
-            //vetor[i] = numeroSorteado;
             if (listDados[i].GetComponent<Dado>().getClicado())
             {
                 continue;
@@ -273,29 +264,32 @@ public class ControlarDados : MonoBehaviour
     }
     void trocarJogador()
     {
-       
-        foreach(var dado in listDados)
+
+        foreach (var dado in listDados)
         {
             dado.GetComponent<Dado>().setClicado(false);
-            dado.GetComponent<Dado>().setManter(true);
+            dado.GetComponent<Dado>().resetAnimacao();
         }
-        sortearDados();
+
         controlarJogo.jogador1 = !controlarJogo.jogador1;
         controlarJogo.zerarContador();
         controlarJogo.contaRodadas++;
         if (controlarJogo.jogador1)
         {
             textoJogador.text = "Jogador 1";
-            textoLances.text = (controlarJogo.rolagemLimite - controlarJogo.contador).ToString() + " lances restantes";
-
-
         }
         else
         {
             textoJogador.text = "Jogador 2";
-            textoLances.text = (controlarJogo.rolagemLimite - controlarJogo.contador).ToString() + " lances restantes";
+        }
+
+        textoLances.text = (controlarJogo.rolagemLimite - controlarJogo.contador).ToString() + " lances restantes";
 
 
+        sortearDados();
+        foreach (var dado in listDados)
+        {
+            dado.GetComponent<Dado>().atualizarAnimacao();
         }
     }
 
@@ -358,7 +352,7 @@ public class ControlarDados : MonoBehaviour
             }
         }
 
-        int nroSorteado = rand.Next(0, 1);
+        int nroSorteado = rand.Next(0, 2);
 
         if (nroSorteado == 0)
         {
@@ -382,14 +376,14 @@ public class ControlarDados : MonoBehaviour
 
 
     }
-    
+
     void verificar_trocarCena(string cena)
     {
         //Debug.Log("Contador:" +controlarJogo.contaRodadas);
-        if(controlarJogo.contaRodadas / 2 == 10)
+        if (controlarJogo.contaRodadas / 2 == 10)
         {
             SceneManager.LoadScene(cena);
-            return;   
+            return;
         }
     }
 }
