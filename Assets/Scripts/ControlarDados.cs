@@ -1,11 +1,10 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Diagnostics.Contracts;
+
 
 public class ControlarDados : MonoBehaviour
 {
@@ -16,10 +15,9 @@ public class ControlarDados : MonoBehaviour
     public Text textoJogador;
     public Text textoLances;
     private System.Random rand = new System.Random();
-
-
     public List<GameObject> visor1 = new List<GameObject>();
     public List<GameObject> visor2 = new List<GameObject>();
+    const string CENAFINAL = "cenaFinal";
     void Start()
     {
         controlarJogo.jogador1 = true;
@@ -27,25 +25,37 @@ public class ControlarDados : MonoBehaviour
         controlarJogo.contador = 1;
         textoLances.text = "2 lances restantes";
         textoJogador.text = "Jogador 1";
-
-
         controlarJogo.p1.visor.addGameObjects(visor1.ToArray());
         controlarJogo.p2.visor.addGameObjects(visor2.ToArray());
-
-
         sortearDados();
+
         botaoRolarDado.onClick.AddListener(delegate ()
         {
-            verificar_trocarCena("sdsds");
+
+            verificar_trocarCena(CENAFINAL);
             if (controlarJogo.jogador1)
             {
+                if(controlarJogo.p1.visor.monitor.nroCliqueRolar_btn + 1 == 3 && controlarJogo.p1.visor.monitor.nroCliqueManter_btn == 0)
+                {
+                    controlarJogo.p1.visor.modificarNaoPontuacao();
+                }
                 textoJogador.text = "Jogador 1";
+                controlarJogo.p1.visor.monitor.nroCliqueRolar_btn++;
+
+               // controlarJogo.p1.visor.monitor.showData();
             }
             else
             {
+                if (controlarJogo.p2.visor.monitor.nroCliqueRolar_btn + 1 == 3 && controlarJogo.p2.visor.monitor.nroCliqueManter_btn == 0)
+                {
+                    controlarJogo.p2.visor.modificarNaoPontuacao();
+                }
                 textoJogador.text = "Jogador 2";
+                controlarJogo.p2.visor.monitor.nroCliqueRolar_btn++;
+                //controlarJogo.p2.visor.monitor.showData();
                 //Debug.Log("Vez do jogador 2");
             }
+
             controlarJogo.contador++;
             sortearDados();
 
@@ -71,13 +81,16 @@ public class ControlarDados : MonoBehaviour
 
             if (controlarJogo.jogador1)
             {
-
+                controlarJogo.p1.visor.monitor.nroCliqueManter_btn++;
                 controlarJogo.p1.addPontuacao(detectarTipoPontuacao());
+                controlarJogo.p1.visor.monitor.resetCounting();
                 //Debug.Log("Vez do jogador 1");
             }
             else
             {
+                controlarJogo.p2.visor.monitor.nroCliqueManter_btn++;
                 controlarJogo.p2.addPontuacao(detectarTipoPontuacao());
+                controlarJogo.p2.visor.monitor.resetCounting();
                 //Debug.Log("Vez do jogador 2");
             }
             mostrarDados();
@@ -90,7 +103,7 @@ public class ControlarDados : MonoBehaviour
 
     public void sortearDados()
     {
- 
+
         int numeroSorteado;
 
         for (int i = 0; i < 5; i++)
@@ -138,8 +151,10 @@ public class ControlarDados : MonoBehaviour
         }
         else
         {
-            throw new Exception("NAO SEI O QUE ACONTECEU!");
+           
         }
+
+        return -1;
     }
     private bool pontuacaoGeneral()
     {
@@ -274,12 +289,15 @@ public class ControlarDados : MonoBehaviour
         controlarJogo.jogador1 = !controlarJogo.jogador1;
         controlarJogo.zerarContador();
         controlarJogo.contaRodadas++;
+
         if (controlarJogo.jogador1)
         {
             textoJogador.text = "Jogador 1";
+            controlarJogo.p1.visor.monitor.resetCounting();
         }
         else
         {
+            controlarJogo.p2.visor.monitor.resetCounting();
             textoJogador.text = "Jogador 2";
         }
 

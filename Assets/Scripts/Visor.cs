@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,16 +20,19 @@ using UnityEngine.UI;
  
  
  */
-
-
-
 public class Visor
 {
-    GameObject[] getGameObjects;
-    
+    public GameObject[] getGameObjects;
+    public Monitor monitor;
+    System.Random rand;
+    List<int> numerosSorteados = new List<int>();
+
+
     public Visor()
     {
+        numerosSorteados.Clear();
         getGameObjects = new GameObject[10];
+        monitor = new Monitor(getGameObjects);
     }
     public void addGameObjects(GameObject[] __getGameObjects)
     {
@@ -36,12 +40,14 @@ public class Visor
         {
             getGameObjects[i] = __getGameObjects[i];
         }
+        monitor.setGameObjectOnce(__getGameObjects);
     }
 
     public void changePontos(int index,int valor)
     {
+
         if (getGameObjects[0].GetComponent<Text>().text == "1" && index == 0            ||
-         getGameObjects[1]. GetComponent<Text>().text == "2" && index == 1              ||
+            getGameObjects[1]. GetComponent<Text>().text == "2" && index == 1              ||
             getGameObjects[2].GetComponent<Text>().text == "3" && index == 2            ||
             getGameObjects[3].GetComponent<Text>().text == "4" && index == 3            ||
             getGameObjects[4].GetComponent<Text>().text == "5" && index == 4            ||
@@ -54,7 +60,27 @@ public class Visor
             getGameObjects[index].GetComponent<Text>().text = valor.ToString();
             getGameObjects[index].GetComponent<Text>().color = Color.white;
         }
-            
+    }
+
+    public void modificarNaoPontuacao()
+    {
+        rand = new System.Random();
+        int numeroAleatório;
+
+        do
+        {
+            numeroAleatório = rand.Next(0, 6);
+            if (numerosSorteados.Count == 6)
+            {
+                numerosSorteados.Clear();
+            }
+        }
+        while (numerosSorteados.Contains(numeroAleatório));
+        
+       
+
+        getGameObjects[numeroAleatório].GetComponent<Text>().text = "x";
+        getGameObjects[numeroAleatório].GetComponent<Text>().color = Color.white;
     }
 
 };

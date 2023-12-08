@@ -64,6 +64,28 @@ public class Dado : MonoBehaviour,
        Debug.Log("Clicado:" + this.clicado);
     }
 
+    private void OnMouseEnter()
+    {
+
+        if (!clicado)
+        {
+            this.gameObject.GetComponent<RectTransform>().localScale = posicaoFinal;
+
+        }
+
+    }
+
+    private void OnMouseExit()
+    {
+
+        if (!clicado)
+        {
+            //diminui dado com clique do mouse
+            this.gameObject.GetComponent<RectTransform>().localScale = posicaoOriginal;
+        }
+
+    }
+
     public void OnPointerDown(PointerEventData eventData) // Quando clicar em cima
     {
         if (Input.GetMouseButtonDown(0))

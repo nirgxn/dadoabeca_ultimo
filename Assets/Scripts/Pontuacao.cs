@@ -17,21 +17,20 @@ public class Pontuacao
         FULA,
         SEQUENCIA,
         ERRO,
-        COMUM
+        COMUM,
+        NAO_PONTUACAO
     };
 
     public int pontos;
 
     public Pontuacao()
     {
-        pontos = 0;
         this.visor = new Visor();
     }
 
 
     public void addPontuacao(int tipo)
     {
-        //Debug.Log("entrou add");
         switch (tipo)
         {
             case (int) TiposPontuacao.GENERAL:
@@ -81,6 +80,9 @@ public class Pontuacao
                // Debug.Log("aUXILIADOR:" +aux);
                 aux = 0;
                 //Debug.LogWarning("Comum");
+                break;
+            case (int)TiposPontuacao.NAO_PONTUACAO:
+                visor.modificarNaoPontuacao();
                 break;
             default:
                 Debug.LogError("Pontuação invalida");
